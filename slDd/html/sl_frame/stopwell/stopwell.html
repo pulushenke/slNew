@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>盗电监测</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css" />
+    <script type="text/javascript" src="../../../script/jquery.min.js"></script>
+    <script type="text/javascript" src="../../../script/treescroll.min.js"></script>
+    <script type="text/javascript" src="../../../script/sl/stopwell.js"></script>
+    <script type="text/javascript" src="../../../script/comm.js"></script>
+    <script type="text/javascript" src="../../../script/api.js"></script>
+    <script type="text/javascript" src="../../../script/echarts.js"></script>
+    <script type="text/javascript" src="../../../script/comm/LoadAnimation.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../../css/LoadAnimation.css" />
+    <script type="text/javascript">
+    </script>
+</head>
+<style>
+html,body{
+  margin:0;
+  border:0;
+  padding:0;
+  font-style:normal;
+  background-color: #21232f !important;
+}
+</style>
+
+<body>
+    <div class="second-p aui-content" style="height:50px">
+
+    </div>
+    <div id='loading' class='loading' style="visibility: hidden;">
+        <img id='gif' class='gif' src='../../../script/comm/oval.svg'></img>
+    </div>
+        <script>
+
+        apiready = function() {
+          var id= api.pageParam.id;
+          var org=api.pageParam.org;
+            var ip = getip();
+            load(ip,id,org);
+            //list(ip, orgname);
+            //下拉刷新数据
+
+
+        }
+        </script>
+</body>
+
+</html>

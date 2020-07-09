@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/common.css" />
+    <style>
+		html,body{
+			background-color: #21232f;
+		}
+    	.subject1{ height: 50px;border-bottom:1px solid #393f4f;}
+        .pleft{color: #fff;font-size: 16px; line-height: 50px; float: left;margin-left: 20px;width:25%;font-weight:bold;text-align:justify; text-justify:inter-ideograph;
+        }
+        .pright{font-size: 16px; line-height: 50px; float: left;margin-right: 15px;}
+        .p-submit{height:40px;text-align:center;margin:10px 15px 1px 15px;}
+		.button{width:90%;height:100%;font-size:18px;background-color: #ff9a00;}
+		input{width:99%; height:35px;float:left; border:1px solid #FFFFFF; border-radius:5px; font-size:15px; font-family:"微软雅黑"; color:gray; outline-color:#FF0; outline:none; margin-top:7px}
+    </style>
+</head>
+<body>
+		 <div class="subject1">
+         <div class="pleft">原&nbsp;密&nbsp;码:</div>
+         <div class=" pright" id="bh"><input class="biaodan" id="oldpassword" name="" type="password" placeholder="请输入您的原密码"></div>
+        </div>
+         <div class="subject1">
+         <div class="pleft">新&nbsp;密&nbsp;码：</div>
+         <div class=" pright" id="rq"><input class="biaodan" id="newpassword" name="" type="password" placeholder="请输入您的新密码"></div>
+        </div>
+        <div class="subject1">
+         <div class="pleft">确认密码：</div>
+         <div class=" pright" id="khmc"><input class="biaodan1" id="truepassword" name="" type="password" placeholder="再次输入您的新密码"></div>
+        </div>
+
+        <div class="p-submit">
+     	<button id="btn1" class="button" onclick="data_submit()">提交</button>
+     </div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript">
+	var connection;
+	apiready = function(){
+		connection =  api.loadSecureValue({
+	        sync:true,
+	        key:'connection'
+        });
+	};
+	function data_submit(){
+		var oldpwd=$api.byId('oldpassword');
+		var newpwd=$api.byId('newpassword');
+		var truepwd=$api.byId('truepassword');
+		if($api.getStorage('name')==undefined){
+			api.alert({msg:'请先登陆！'});
+		}
+		else if($api.val(newpwd)==$api.val(truepwd)){
+			var _url = connection + "wap/ModifyPassWord";
+			api.ajax({
+				url:_url,
+				method: 'post',
+				data: {
+					values: {
+						username:$api.getStorage('name'),
+						oldPassword:$api.val(oldpwd),
+						newPassword:$api.val(newpwd)
+					}
+				}
+			 },function(ret,err){
+			 	if(ret){
+			    	if(ret.return == 1){
+			       		api.alert({msg:'密码修改成功！'});
+				    }
+			        else{
+			        	//api.alert({msg:ret.msg});
+			        }
+			  	}
+			    else
+			    {
+			    	//api.alert({msg:JSON.stringify(ret)});
+			    }
+			});
+		}
+		else{
+			api.alert({msg:'新密码与确认密码不一致，请重新输入！'});
+		}
+	}
+</script>
+</html>

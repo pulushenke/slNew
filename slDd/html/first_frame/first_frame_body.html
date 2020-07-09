@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>首页</title>
+
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css" />
+    <script type="text/javascript" src="../../script/echarts-all-3.js"></script>
+    <script type="text/javascript" src="../../script/dataTool.min.js"></script>
+    <script type="text/javascript" src="../../script/bmap.min.js"></script>
+    <script type="text/javascript" src="../../script/api.js"></script>
+    <script type="text/javascript" src="../../script/firstframe.js"></script>
+    <script type="text/javascript" src="../../script/comm.js"></script>
+    <script type="text/javascript" src="../../script/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../css/LoadAnimation.css" />
+    <style>
+        body {
+            background-color: #21232f !important;
+        }
+
+        * {
+            font-family: "微软雅黑"
+        }
+
+        .empty {
+            text-align: center;
+            padding: 120px 0;
+        }
+
+        .first-p {
+            padding: 5px;
+            margin: 0 auto;
+            background-color: #21232f !important;
+        }
+
+        .first-name {
+            /*border: 2px solid #ccc;*/
+            background: #393f4f;
+            text-align: left;
+            padding: 10px;
+            color: #fff;
+        }
+
+        .first-content {
+            padding: 5px 0;
+            margin-top: -2px;
+            height: 130px;
+            color: #fff;
+        }
+
+        .first-content p {
+            margin: 12px 0;
+        }
+
+        .col-4 {
+            width: 31%;
+            height: 120px;
+            margin: 0 1%;
+            float: left;
+            text-align: center;
+            padding-top: 15px;
+        }
+
+        .col-6 {
+            width: 47%;
+            height: 120px;
+            margin: 0 1%;
+            float: left;
+            text-align: center;
+            padding-top: 15px;
+        }
+
+        .p-menu {
+            font-size: 16px;
+        }
+
+        .img-menu {
+            height: 17px;
+            margin: -2px 10px 0 5px;
+        }
+
+        .update {
+            background-color: #000;
+            color: #de9713;
+        }
+
+        .update li {
+            padding: 5px;
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 第一部分 -->
+    <p style="color:#fff; margin-left:5px;">统计时间：<span id="datetime" style="margin-left:20px;"><span></p>
+    <div class="first-p">
+        <!-- <p style="text-align:left;font-size:12px;color:rgba(0,0,0,.5);  margin-left: 9px;">统计时间   :&nbsp;<span>2018/10/10&nbsp;&nbsp;&nbsp;8：26</span></p> -->
+        <p class="first-name" style="vertical-align:middle;"><img src="../../image/bottombtn0201.png"
+                class="img-menu">时率监测</p>
+        <div class="first-content">
+            <div class="col-4">
+                <img src="../../image/1.png" style="height:60px;">
+                <p class="p-menu">
+                    总井数:&nbsp;
+                    <span id="total" style="color:#f5b12a;font-weight:800;">0</span>
+                </p>
+            </div>
+            <div class="col-4">
+                <img src="../../image/2.png" style="height:60px;">
+                <p class="p-menu">
+                    开井数:&nbsp;
+                    <span id="open" style="color:#4eb7cd;font-weight:800;">0</span>
+                </p>
+            </div>
+            <div class="col-4">
+                <img src="../../image/3.png" style="height:60px;">
+                <p class="p-menu">
+                    临时停机数:&nbsp;
+                    <span id="stop" style="color:#55c45e;font-weight:800;">0</span>
+                </p>
+            </div>
+        </div>
+    </div>
+    <!-- 第二部分 -->
+    <div class="first-p">
+        <p class="first-name" style="vertical-align:middle;"><img src="../../image/bottombtn0301.png"
+                class="img-menu">盗电监测</p>
+        <div class="first-content">
+            <div class="col-6">
+                <img src="../../image/4.png" style="height:60px;">
+                <p class="p-menu">
+                    总装置数:&nbsp;
+                    <span id="zjs" style="color:#a38de0;font-weight:800;">0</span>
+                </p>
+            </div>
+            <div class="col-6">
+                <img src="../../image/5.png" style="height:60px;">
+                <p class="p-menu">
+                    24小时报警数:&nbsp;
+                    <span id="bjs" style="color:#ff6b6b;font-weight:800;">0</span>
+                </p>
+            </div>
+        </div>
+    </div>
+    <!-- 第三部分 -->
+    <div id="update" class="first-p" style="display:none;">
+        <p class="first-name" style="vertical-align:middle;"><img src="../../image/gxgg.png"
+                class="img-menu"><span>更新公告</span></p>
+
+        <div id="container" class="update">
+
+        </div>
+    </div>
+    <div id='loading' class='loading' style="visibility: hidden;">
+        <img id='gif' class='gif' src='../../script/comm/oval.svg'></img>
+    </div>
+    <script type="text/javascript">
+        apiready = function () {
+
+            var time = gettime();
+            var usersl = $api.getStorage('usersl');
+            var userdd = $api.getStorage('userdd');
+            //username = 'testuser';
+
+            //alert('usersl:'+usersl);
+            //alert('userdd:'+userdd);
+
+            if (usersl == 'true') {
+                var ip = getip();
+                var org = getslorg();
+                load(ip, org);
+
+            } else {
+                api.toast({
+                    msg: '该用户没有时率权限',
+                    duration: 1000,
+                    location: 'middle'
+
+                });
+
+            }
+            if (userdd == 'true') {
+                var ddorg = getddorg();
+                loaddd(ddorg);
+            } else {
+                api.toast({
+                    msg: '该用户没有防盗电权限',
+                    duration: 1000,
+                    location: 'middle'
+                });
+            }
+            //下拉刷新数据
+            api.setRefreshHeaderInfo({
+                loadingImg: '',
+                bgColor: '#DEF3CA',
+                textColor: '#fff',
+                textDown: '下拉刷新...',
+                textUp: '松开刷新...'
+            }, function (ret, err) {
+                var time = gettime();
+                var username = $api.getStorage('username');
+                //username = 'testuser';
+                if (usersl == 'true') {
+                    load(ip, org);
+                    if (userdd == 'true') {
+                        var ddorg = getddorg();
+                        loaddd(ddorg);
+                    }
+                } else {
+                    api.toast({
+                        msg: '该用户没有时率权限',
+                        duration: 1000,
+                        location: 'middle'
+                    });
+                    var ddorg = getddorg();
+                    loaddd(ddorg);
+                }
+                api.refreshHeaderLoadDone();
+            });
+
+            checkUpdate();
+
+        }
+
+
+        //更新
+        function checkUpdate() {
+            var mam = api.require('mam');
+            var upd = $api.dom('#update');
+            mam.checkUpdate(function (ret, err) {
+                if (ret) {
+                    var result = ret.result;
+                    var con = $api.dom('#container');
+                    $api.css(upd, 'display: block');
+                    if (result.update == true) {
+                        var html = '<ul>' +
+                            '<li>APP更新说明</li>' +
+                            '<li>版本号：' + result.version + '</li>' +
+                            '<li>更新内容：' + result.updateTip + '</li>' +
+                            '<li>发布时间：' + result.time + '</li>' +
+                            '<li>请前往我的设置进行更新操作</li>' +
+                            '</ul>';
+                        // $api.append(con, html);
+                        $api.html(con, html);
+                    } else {
+                        $api.css(upd, 'display:none');
+                    }
+                } else {
+                    api.alert({
+                        msg: err.msg
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

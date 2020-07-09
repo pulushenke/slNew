@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../css/header.css" />
+		<link rel="stylesheet" type="text/css" href="../../../css/style.css" />
+</head>
+<body>
+	<div class="div-h">
+	    <div class="div-style1" onclick="goback()"><img src="../../../image/ic_back_u.png" alt=""></div>
+	    <div class="div-style2">
+			<span id="cSubstation">盗电监测-报警列表</span>
+	    </div>
+	    <div class="div-style3">
+	    </div>
+    </div>
+</body>
+<!--script type="text/javascript" src="../../../script/api.js"></script-->
+<script type="text/javascript" src="../../../script/jquery.min.js"></script>
+<script type="text/javascript">
+	apiready = function(){
+		var id= api.pageParam.id;
+    var name=api.pageParam.name;
+		var time1=api.pageParam.time1;
+var time2=api.pageParam.time2;
+		var head=document.getElementById('cSubstation');
+    head.innerHTML='井名：'+name;
+		api.openFrame ({
+            name: 'dd_alarmlist',
+            url: './dd_alarmlist.html',
+            rect:{
+                x:0,
+                y:$(".div-h").height(),
+                w:'auto',
+                h:'auto'
+            },
+            bounces: false,
+            delay:200,
+						pageParam: {
+        id: id,
+        name:name,
+				time1:time1,
+				time2:time2
+    }
+        });
+	};
+	//返回
+	function goback () {
+      api.closeWin();
+    }
+</script>
+</html>

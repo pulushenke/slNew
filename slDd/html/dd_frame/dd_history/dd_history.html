@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>统计分析</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css"/>
+    <script type="text/javascript" src="../../../script/jquery.min.js"></script>
+    <script type="text/javascript" src="../../../script/treescroll.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-datepicker3.css" />
+
+
+    <script type="text/javascript" src="../../../script/jquery.min.js"></script>
+    <script type="text/javascript" src="../../../script/treescroll.min.js"></script>
+    <script type="text/javascript" src="../../../script/api.js"></script>
+    <script type="text/javascript" src="../../../script/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../script/comm.js"></script>
+    <script type="text/javascript" src="../../../script/dd/dd_history.js"></script>
+    <script type="text/javascript" src="../../../script/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript" src="../../../script/bootstrap-datepicker.zh-CN.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../../../css/LoadAnimation.css" />
+
+
+    <style>
+        html,body{
+          margin:0;
+          border:0;
+          padding:0;
+          font-style:normal;
+          background-color: #21232f !important;
+        }
+
+        *{font-family:"微软雅黑" }
+        .statisical-btn{
+             width: 14%;
+             height: 40px;
+             float: left;
+             border-radius: 0px;
+             position: relative;
+             line-height: 24px;
+             text-align: center;
+         }
+        .statisical-name{
+          width: 24%;
+          height: 40px;
+          margin-right: 1%;
+          text-align: center;
+          line-height: 40px;
+          float: left;
+          position: relative;
+          background: #393f4f;
+         }
+        .statisical-table{
+            width: 37%;
+            height: 40px;
+            float: left;
+            position: relative;
+            background: #393f4f;
+         }
+         .statisical-time{
+             width: 60%;
+             margin-right: 1%;
+             height: 40px;
+             float: left;
+             position: relative;
+             background: #393f4f;
+          }
+         select{
+             border: none;
+             outline: none;
+             width: 100%;
+             height: 40px;
+             line-height: 40px;
+             appearance: none;
+             -webkit-appearance: none;
+             -moz-appearance: none;
+             padding-left: 20px;
+         }
+         .statisical-table:after{
+             content: "";
+             width: 14px;
+             height: 8px;
+             background: url(../../../image/down.png) no-repeat left top;
+             position: absolute;
+             right: 20px;
+             top: 45%;
+             pointer-events: none;
+         }
+        .select1 option{background: #393f4f;}
+
+    </style>
+</head>
+<body style="background-color:#21232f !important;">
+<div style="z-index:9998;height:50px;color:#fffdff;">
+
+  <div class="statisical-name">
+    时间选择
+  </div>
+  <div class="statisical-time" >
+      <input id="date" type="text" style="text-align: center;font-size: 16px;color: #ffffff">
+  </div>
+  <div id='select' class="statisical-btn btn btn-success">查询</div>
+</div>
+
+
+<!--详细列表-->
+  <div class="treebox " style="font-size: 16px;padding:10px 10px 0;">
+    <div class="">
+      <ul id='ddlist'>
+        <!--井号-->
+
+
+      </ul>
+    </div>
+  </div>
+  <div id='loading' class='loading' style="visibility: hidden;z-index:9999">
+      <img id='gif' class='gif' src='../../../script/comm/oval.svg'></img>
+  </div>
+  <script type="text/javascript">
+  function click1(obj) {
+
+      var el = document.getElementById(obj.id);
+      //var id = el.id.split('.', 1);
+      //var name = el.innerHTML;
+      var id = el.id.split('.');
+      //alert(id[0] + ':' + id[2]);
+      var name = $api.eq(el, 2).innerHTML;
+
+      var temp1 = 'start' + id[2];
+      //alert(temp1);
+
+      var time1 = (document.getElementById(temp1).innerHTML);
+      var time2 = time1.substring(8, 10);
+      time1 = time1.substring(11, 16);
+
+
+      var time = time1.split(':');
+      var timenow = '';
+      time2 = new Date().getDate() - time2;
+
+      //alert(time2);
+      //alert(time1);
+      //var start= document.getElementById('start0');
+      //  start=strat.innerHTML;
+      //temp=$api.first(temp,'div');
+      //var endTime= $api.eq(temp,1).innerHTML;
+      //alert(json.stringify(start));
+      //alert(id+':'+name);
+      api.openWin({
+          name: 'alarmlist_header',
+          url: '../dd_alarmlist/dd_alarmlist_header.html',
+          pageParam: {
+              id: id[0],
+              name: name,
+              time1: time1,
+              time2: time2
+          }
+      });
+  }
+  apiready = function() {
+    var org=getddorg();
+load(org);
+
+  }
+  </script>
+
+
+
+</body>
+
+
+</html>

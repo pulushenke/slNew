@@ -1,0 +1,21 @@
+.loading{
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: black;
+  opacity: 0.4;
+  z-index: 1000;
+  visibility:hidden
+}
+.gif{
+  height: 50px;
+  width: 50px;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  margin-left: -16px;
+  margin-top: -16px;
+  z-index: 1001
+}

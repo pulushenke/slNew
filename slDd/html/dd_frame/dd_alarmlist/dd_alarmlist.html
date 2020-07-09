@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>图表分析</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
+      <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-datepicker3.css" />
+    <script type="text/javascript" src="../../../script/jquery.min.js"></script>
+    <script type="text/javascript" src="../../../script/treescroll.min.js"></script>
+<script type="text/javascript" src="../../../script/dd/dd_alarmlist.js"></script>
+<script type="text/javascript" src="../../../script/echarts.js"></script>
+<script type="text/javascript" src="../../../script/comm.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../css/LoadAnimation.css" />
+<script type="text/javascript" src="../../../script/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="../../../script/bootstrap-datepicker.zh-CN.min.js"></script>
+<script type="text/javascript" src="../../../script/api.js"></script>
+<script type="text/javascript" src="../../../script/bootstrap.min.js"></script>
+    <style>
+
+        *{font-family:"微软雅黑" }
+        .statisical-btn{
+          margin-top: 5px;
+             width: 32%;
+             height: 40px;
+             float: left;
+             margin-right: 1%;
+             border-radius: 0px;
+             position: relative;
+             line-height: 24px;
+             text-align: center;
+         }
+        .statisical-name{
+          width: 25%;
+          height: 40px;
+          margin-right: 1%;
+          text-align: center;
+          line-height: 40px;
+          float: left;
+          position: relative;
+          background: #393f4f;
+         }
+        .statisical-table{
+            width: 29%;
+            height: 40px;
+            float: left;
+            position: relative;
+            background: #393f4f;
+            margin-right: 1%;
+         }
+         .statisical-time{
+             width: 70%;
+             margin-right: 1%;
+             height: 40px;
+             float: left;
+             position: relative;
+             background: #393f4f;
+          }
+         select{
+             border: none;
+             outline: none;
+             width: 100%;
+             height: 40px;
+             line-height: 40px;
+             appearance: none;
+             -webkit-appearance: none;
+             -moz-appearance: none;
+             padding-left: 20px;
+         }
+         .statisical-table:after{
+             content: "";
+             width: 14px;
+             height: 8px;
+             background: url(../../../image/down.png) no-repeat left top;
+             position: absolute;
+             right: 20px;
+             top: 45%;
+             pointer-events: none;
+         }
+         .tubiao{
+
+         }
+        .select1 option{background: #393f4f;}
+    </style>
+</head>
+<body style="background-color:#21232f !important;height:auto;width:100%">
+<div style="z-index:9999;height:50px;color:#fffdff;">
+  <div class="statisical-name">
+    时间选择
+  </div>
+  <div class="statisical-time" >
+      <input id="date" type="text" style="text-align: center;font-size: 16px;color: #ffffff">
+  </div>
+  <div id='select' class="statisical-btn btn btn-success">查询</div>
+  <div id='before' class="statisical-btn btn btn-success">前一天</div>
+  <div id='after' class="statisical-btn btn btn-success">后一天</div>
+</div>
+
+
+<!--详细列表-->
+  <div class="treebox tubiao" style="font-size: 16px;">
+    <div id="main1" class='tubiao' style="width: 95%px;height:330px;"></div>
+    <div id="main2" class='tubiao' style="width: 95%px;height:330px;margin-top:10px"></div>
+    <div id="main3" class='tubiao' style="width: 95%px;height:330px;"></div>
+    <div id="main4" class='tubiao' style="width: 95%px;height:330px;"></div>
+    <div id="main5" class='tubiao' style="width: 95%px;height:10px;visibility: hidden;"></div>
+      </div>
+
+      <div id='loading' class='loading' style="visibility: hidden;">
+          <img id='gif' class='gif' src='../../../script/comm/oval.svg'></img>
+      </div>
+  <script type="text/javascript">
+  apiready = function() {
+    var id= api.pageParam.id;
+    var name=api.pageParam.name;
+    var time1=api.pageParam.time1;
+var time2=api.pageParam.time2;
+load(id,name,time1,time2);
+
+  }
+  </script>
+
+</body>
+
+
+</html>

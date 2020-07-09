@@ -1,0 +1,427 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="copyright" content="www.apicloud.com" />
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>推荐</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <script type="text/javascript" src="../../script/comm.js"></script>
+    <script type="text/javascript" src="../../script/jquery.min.js"></script>
+    <script type="text/javascript" src="../../script/comm/jquery.md5.js"></script>
+    <style>
+        html {
+            height: 100%;
+            background: #21232f;
+        }
+
+        body {
+            height: 100%;
+            background: #21232f;
+        }
+
+        input {
+            height: 50px;
+            font-size: 18px;
+            color: #8E8C8C;
+            width: 80%;
+        }
+
+        input::-webkit-input-placeholder {
+            color: #ccc;
+        }
+
+        .divider {
+            height: 15px;
+            margin-top: 10px;
+            margin-left: 10px;
+            color: #f60;
+            font-size: 16px;
+        }
+
+        .email,
+        .passwd {
+            /*margin-top: 3px;*/
+            background: #fff;
+        }
+
+        .passwd img,
+        .email img {
+            vertical-align: top;
+        }
+
+        .item {
+            background-color: #393f4f;
+            border-bottom: 1px solid #21232f;
+            position: relative;
+        }
+        /*.email, .passwd, .btn {margin:3px 10px;}*/
+
+        .btn {
+            margin: 3px 10px;
+            color: #fff;
+        }
+
+        .btn {
+            background: #1bbc9b;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+            font-size: 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        .btn button {
+            color: #fff;
+        }
+
+        .email img {
+            width: 25px;
+            margin-top: 15px;
+            margin-left: 10px;
+            margin-right: 9px;
+        }
+
+        .passwd img {
+            height: 25px;
+            margin-top: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        .secretword img {
+            height: 25px;
+            margin-top: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+        /* 底部样式 */
+
+        .bottom {
+            /*position: absolute;bottom: 0;*/
+            width: 100%;
+            text-align: center;
+            /*padding-bottom: 20px;*/
+            font-size: 12px;
+        }
+
+        .bottom img {
+            height: 50px;
+        }
+
+        .bottom .arrow {
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .bottom .arrow img {
+            width: 40px;
+            height: 20px;
+        }
+
+        #qqpic {
+            margin-right: 10px;
+            margin-left: 10px;
+        }
+
+        .thirdinfo {
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .secretword input {
+            width: 50%;
+        }
+
+        .secretimg {
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 56px;
+            margin-right: 10px;
+            border-left: 1px solid #e0e0e0;
+        }
+
+        .secretimg img {
+            height: 60%;
+        }
+
+        .thirdcompy .left {
+            margin-right: 20px;
+        }
+
+        .thirdcompy .left,
+        .thirdcompy .right {
+            width: 40%;
+            display: inline-block;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            vertical-align: top;
+            text-align: left;
+            font-size: 18px;
+        }
+
+        .thirdcompy .left img,
+        .thirdcompy .right img {
+            width: 30px;
+            height: 30px;
+            float: left;
+            margin: 5px 10px;
+        }
+
+        .thirdcompy span {
+            line-height: 40px;
+            color: #666;
+        }
+
+        .loginmore {
+            margin-top: 10px;
+        }
+
+        .loginmore span {
+            color: #0078ff;
+        }
+
+        .loginmore .forget {
+            margin-left: 10px;
+        }
+
+        .loginmore .phone {
+            margin-right: 10px;
+            float: right;
+        }
+
+        .btnhover {
+            background-color: #dcdcdc !important;
+        }
+
+        .buyhover {
+            background-color: rgba(252, 85, 0, 0.6) !important;
+        }
+
+        .presshover {
+            background-color: #FAFAFA !important;
+        }
+
+        .txthover {
+            color: rgba(0, 120, 255, 0.6) !important;
+        }
+
+        input {
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="divider"></div>
+    <form action="">
+        <div class="item email"><img src="../../image/login01.png" alt=""><input type="text" placeholder="账号" id="email"></div>
+        <div class="item passwd"><img src="../../image/login02.png" alt=""><input type="password" placeholder="密码" id="passwd">
+        </div>
+        <!--<div class="item secretword"><img src="../../image/login03.png" alt=""><input type="password" placeholder="验证码" id="passwd">
+            <div class="secretimg"><img src="../../image/secretword.png"></div>
+        </div>-->
+        <div class="btn" tapmode="buyhover" id='login'>登 录</div>
+    </form>
+    <div class="loginmore">
+        <span class="forget" tapmode="txthover" onclick="resetPassword()">忘记密码？</span>
+    </div>
+    <div class="divider" id="bottomdivider">忘记密码请联系系统管理员技术支持，重置密码。</div>
+    <div class="bottom">
+        <div class="thirdcompy">
+            <!--
+            <div class="left" tapmode="btnhover" onclick=""><img src="../../image/logo_weixinpay.png" alt=""><span>微信登陆</span></div>
+            <div class="right" tapmode="btnhover" onclick=""><img src="../../image/share_to_icon_qq.png" alt="" id="qqpic"><span>QQ登陆</span></div>
+        -->
+        </div>
+        <div class="thirdinfo"></div>
+        <div class="arrow"></div>
+    </div>
+    <div id="tis"></div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript">
+var connection;
+apiready = function() {
+
+    var ip = getip();
+    var changname = getorgname();
+    var kuangname = getkuangname();
+    var duiname = getduiname();
+    connection = api.loadSecureValue({
+        sync: true,
+        key: 'connection'
+    });
+    var login = $api.byId('login');
+    $api.addEvt(login, 'click', function() {
+        btnlogin(ip);
+    });
+    // 可以运行，但是会有明显卡顿
+    var bottomHeight = $api.dom('.bottom').offsetHeight;
+    var formHeight = $api.dom('form').offsetHeight;
+    var loginmore = $api.dom('.loginmore').offsetHeight;
+
+    headerHeight = api.pageParam.name;
+
+    var bottomdivider = $api.dom('#bottomdivider');
+    bottomdivider.style.height = api.frameHeight - bottomHeight - formHeight - loginmore - 43 + 'px';
+    $api.css($api.byId('bottomdivider'), 'display:none');
+};
+
+function btnlogin(ip) {
+    $api.clearStorage();
+    var usersl = false;
+    var userdd = false;
+    var username = document.getElementById('email').value;
+    var password = document.getElementById('passwd').value;
+    if ((username != '' && username != undefined && username != null) && (password != '' && password != undefined && password != null)) {
+        api.ajax({
+                url: 'http://' + ip + '/home/Getuser',
+                method: 'post',
+                data: {
+                    values: {
+                        username: username,
+                        password: $.md5(password),
+                        random: Math.random()
+                    }
+                }
+            }, function(ret, err) {
+                if (ret) {
+      
+                    var user = eval(ret);
+                    if (user.code == 'Sucess') {
+                        usersl = true;
+                        $api.setStorage('username', user.data.username);
+
+                        $api.setStorage('changname', user.data.org.orgonename);
+                        $api.setStorage('changid', user.data.org.orgoneid);
+
+                        $api.setStorage('kuangname', user.data.org.listorgtwo[0].orgtwoname);
+                        $api.setStorage('kuangid', user.data.org.listorgtwo[0].orgtwoid);
+                    if(user.data.org.listorgtwo[0].listorgthree.length>0)
+                    {
+                    $api.setStorage('duiname', user.data.org.listorgtwo[0].listorgthree[0].orgthreename);
+                    $api.setStorage('duiid', user.data.org.listorgtwo[0].listorgthree[0].orgthreeid);
+}
+                    checkdd(usersl, username, password);
+                } else {
+                    checkdd(usersl, username, password);
+                }
+
+            }
+        });
+
+
+
+} else {
+    alert('账号密码不能为空');
+}
+}
+
+function checkdd(usersl, username, password) {
+    var userdd = false;
+    api.ajax({
+        url: 'http://iot.zhdk.net:9000/wap/userlogin',
+        method: 'post',
+        data: {
+            values: {
+                username: username,
+                password: password,
+                random: Math.random()
+            }
+        }
+    }, function(ret, err) {
+        if (ret) {
+            var user = eval(ret);
+            if (user.return == 1) {
+                userdd = true;
+                $api.setStorage('username', username);
+                checkuser(usersl, userdd, username);
+
+            } else {
+                checkuser(usersl, userdd, username);
+            }
+        } else {
+
+        }
+    });
+
+}
+
+function checkuser(usersl, userdd, username) {
+
+    $api.setStorage('usersl', usersl);
+    $api.setStorage('userdd', userdd);
+    if (usersl == false && userdd == false) {
+        alert('账户或密码不正确！')
+        document.getElementById('passwd').value = '';
+        document.getElementById('email').value = '';
+    } else {
+        if (usersl == false) {
+            api.toast({
+                msg: '该用户没有时率权限',
+                duration: 2000,
+                location: 'middle'
+            });
+        }
+        if (userdd == false) {
+            api.toast({
+                msg: '该用户没有防盗电权限',
+                duration: 2000,
+                location: 'middle'
+            });
+        }
+        $api.setStorage('name', username);
+        api.sendEvent({
+            name: 'UserEvent',
+            extra: {
+                username: username
+            }
+        });
+        var deviceToken = ("A" + api.deviceToken).toString();
+
+        //tuisong(username);
+
+
+        /*api.openWin({
+            name: 'index',
+            url: '../../index.html',
+            pageParam: {
+
+            }
+        });*/
+        api.closeWin({
+            name: 'login'
+        });
+        document.getElementById('passwd').value = '';
+        document.getElementById('email').value = '';
+    }
+}
+
+function checkUserRole() {
+    var _url = connection + "wap/GetUserRole";
+    api.ajax({
+        url: _url,
+        method: 'post',
+        data: {
+            values: {
+                username: username
+            }
+        }
+    }, function(ret, err) {
+        if (ret) {
+            $api.setStorage('role', ret.return);
+        }
+    });
+}
+
+function resetPassword() {
+    $api.css($api.byId('bottomdivider'), 'display:block');
+}
+</script>
+
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>盗电监测</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css" />
+    <script type="text/javascript" src="../../script/jquery.min.js"></script>
+    <script type="text/javascript" src="../../script/treescroll.min.js"></script>
+    <script type="text/javascript" src="../../script/sl/sl_frame_body.js"></script>
+    <script type="text/javascript" src="../../script/comm.js"></script>
+    <script type="text/javascript" src="../../script/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../script/api.js"></script>
+    <script type="text/javascript" src="../../script/echarts.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../../css/LoadAnimation.css" />
+    <script type="text/javascript">
+    </script>
+</head>
+<style>
+    body {
+        background-color: #21232f !important;
+        height: auto;
+    }
+</style>
+
+<body>
+    <div class="second-p aui-content" style="height:100%;">
+        <div class="aui-content aui-margin-b-15">
+            <ul class="aui-list aui-media-list">
+                <li class="aui-list-item">
+                    <div class="aui-list-item-inner">
+                        <div class="aui-row aui-row-padded">
+                            <div class="aui-col-xs-4" style="position:relative;"
+                                onclick="openNewWindow('sl_zjs/sl_zjs')">
+                                <img src="../../image/demo1.png" />
+                                <div class="second-img">
+                                    <p>总井数</p>
+                                    <p><span id="total">0</span></p>
+                                </div>
+                            </div>
+                            <!-- <div class="aui-col-xs-4" style="position:relative;">
+                                <img src="../../image/demo2.png" />
+                                <div class="second-img">
+                                    <p>时率</p>
+                                    <p><span id="timerate">0%</span></p>
+                                </div>
+                            </div> -->
+
+                            <div class="aui-col-xs-4" style="position:relative;"
+                                onclick="openNewWindow('sl_history/sl_history')">
+                                <img src="../../image/demo5.png" />
+                                <div class="second-img">
+                                    <p>井况历史</p>
+                                    <p>查询</p>
+                                </div>
+                            </div>
+                            <div class="aui-col-xs-4" style="position:relative;"
+                                onclick="openNewWindow('stopwell/stopwell_list')">
+                                <img src="../../image/demo3.png" />
+                                <div class="second-img">
+                                    <p>停机数</p>
+                                    <p><span id="stop">0</span></p>
+                                </div>
+                            </div>
+
+                            <div class="aui-col-xs-8" style="position:relative;"
+                                onclick="openNewWindow('sl_statistical/sl_statistical')">
+                                <img src="../../image/demo7.png" />
+                                <div class="second-img">
+                                    <p>时率统计分析</p>
+                                </div>
+                            </div>
+
+                            <div class="aui-col-xs-4" style="position:relative;"
+                                onclick="openNewWindow('sl_stop/sl_stop')">
+                                <img src="../../image/demo6.png" />
+                                <div class="second-img">
+                                    <p>离线统计</p>
+                                    <p id="offline">0</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!--停井列表-->
+        <div class="second-table">
+            <p style="float:left;">停机列表</p>
+            <p style="float:right;" onclick="openNewWindow('stopwell/stopwell_list')">更多 ></p>
+        </div>
+        <!--详细列表-->
+        <div style="background-color:#393f4f;">
+            <div class="treebox ">
+                <div class="tree" style="font-size: 16px;">
+                    <ul id="stopwell">
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id='loading' class='loading' style="visibility: hidden;">
+            <img id='gif' class='gif' src='../../script/comm/oval.svg'></img>
+        </div>
+        <script>
+            function openNewWindow(type) {
+                var usersl = $api.getStorage('usersl');
+                if (usersl == 'true') {
+                    api.openWin({
+                        name: type,
+                        url: './' + type + '_header.html',
+                        delay: 200,
+                        bounces: false
+                    });
+                } else {
+                    api.toast({
+                        msg: '该用户没有时率权限',
+                        duration: 1000,
+                        location: 'middle'
+                    });
+                }
+            }
+
+            function click1(obj) {
+                var el = document.getElementById(obj.id);
+                var one = $api.last(el);
+                var id = one.text.split('【', 2);
+                var org = id[1].split('】', 1);
+                //var org1=org.split('】', 2);
+                //alert(org);
+                api.openWin({
+                    name: 'stopwell_header',
+                    url: './stopwell/stopwell_header.html',
+                    pageParam: {
+                        id: id[0],
+                        org: org
+                    }
+                });
+            }
+
+            apiready = function () {
+
+                var usersl = $api.getStorage('usersl');
+                //username = 'testuser';
+                var ip = getip();
+                var org = getslorg();
+                if (usersl == 'true') {
+
+                    load(ip, org);
+                } else {
+                    api.toast({
+                        msg: '该用户没有时率权限',
+                        duration: 1000,
+                        location: 'middle'
+                    });
+
+                }
+                //list(ip, orgname);
+                //下拉刷新数据
+                api.setRefreshHeaderInfo({
+                    loadingImg: '',
+                    bgColor: '#DEF3CA',
+                    textColor: '#fff',
+                    textDown: '下拉刷新...',
+                    textUp: '松开刷新...'
+                }, function (ret, err) {
+
+
+                    if (usersl == 'true') {
+
+                        load(ip, org);
+                    } else {
+
+                        api.toast({
+                            msg: '该用户没有时率权限',
+                            duration: 1000,
+                            location: 'middle'
+                        });
+                    }
+
+                    api.refreshHeaderLoadDone();
+
+                })
+            }
+        </script>
+</body>
+
+</html>

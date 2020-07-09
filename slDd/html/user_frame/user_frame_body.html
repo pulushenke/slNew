@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	<title>我的</title>
+	<link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/common.css" />
+	<script type="text/javascript" src="../../script/comm.js"></script>
+    <style>
+		.activebar {
+				display: block;
+		}
+		#firstHeader {
+				background-color: #fff;
+		}
+		.topbar {
+				/*background: 1bbc9b;*/
+				height: 24px;
+				line-height: 50px;
+				padding-left: 15px;
+		}
+    	html, body {width: 100%;min-height: 100%;background: #21232f;}
+    	.h10 {height: 10px;background: #21232f;}
+		.h1 {height: 1px;margin-left: 15px;background: #21232f;}
+		.fr {float: right;}
+		.hint {color: #666;font-size: 12px;margin-right: 5px;}
+
+		.firstblock, .secondblock, .thirdblock {background-color: #21232f;}
+		/* 头部登陆 */
+		.login {background-image: url(../../image/personal_bkg.jpg);background-repeat: no-repeat; background-size: contain;position: relative;}
+		.loginbg {/*position: absolute;*/ width: 100%;}
+		.login .personal_logo {position: absolute; top: 60px; width: 70px; left: 20px;}
+		.person_arrow {position: absolute;height: 20px; right: 10px; top: 75px;}
+		.login .userinfo {position: absolute; top: 75px; margin-left: 100px;}
+		.login .userinfo .title {font-size: 20px; color: #fff;}
+		.login .userinfo .subtitle {font-size: 14px; color: #fff;border: 1px solid #fff;display: inline-block;padding: 3px;border-radius: 4px;margin-top: 5px;}
+
+		/* 设置条目 */
+		.item {height: 50px;line-height: 50px;padding-left: 15px;background-color: #393f4f}
+		.item_ico {float: left;width: 30px;padding: 10px 10px 10px 0;}
+		.item_arrow {float: right;width: 16px;padding: 17px 15px 15px 0;}
+
+		.presshover {background-color: #393f4f;}
+    </style>
+</head>
+<body>
+	<div id="firstHeader" class="titlebar activebar">
+			<div class="topbar whitebar">
+					<div class="search secSearch">
+							<div class="citylist f4" id="whitecity" tapmode="" onclick="">
+									<span id="cSubstation"></span>
+							</div>
+					</div>
+			</div>
+	</div>
+	<div class="login"  tapmode="" onclick="openLogin()">
+		<img src="../../image/personal_bkg.jpg" alt="" class="loginbg">
+		<img src="../../image/profile_default.png" alt="" class="personal_logo">
+		<div class="userinfo">
+			<div class="title">点击登录</div>
+		</div>
+		<img src="../../image/personal_icon_arrow.png" alt="" class="person_arrow">
+	</div>
+
+
+	<!-- 第一块 -->
+	<!-- <div class="firstblock">
+		<div class="item" tapmode="presshover" onclick="openMyJob()">
+			<img src="../../image/my_order_user_icon_normal.png" alt="" class="item_ico">
+			<span>我的工单</span>
+			<img src="../../image/arrow.png" alt="" class="item_arrow">
+			<span class="fr hint" id="job_0"></span>
+		</div><div class="h1"></div>
+		<div class="item" tapmode="presshover" onclick="openWaitProcessJob()">
+			<img src="../../image/my_coupon_user_icon_normal.png" alt="" class="item_ico">
+			<span>待执行工单</span>
+			<img src="../../image/arrow.png" alt="" class="item_arrow">
+			<span class="fr hint" id="job_1"></span>
+		</div><div class="h1"></div> -->
+		<!--
+		<div class="item" tapmode="presshover" onclick="openLogin()">
+			<img src="../../image/my_wallet_user_icon_normal.png" alt="" class="item_ico">
+			<span>执行中工单</span>
+			<img src="../../image/arrow.png" alt="" class="item_arrow">
+			<span class="fr hint">余额/返现/抵用券/会员卡</span>
+		</div>
+		-->
+	</div>
+
+
+	<!-- 第三块 -->
+	<div class="h10"></div>
+	<div class="thirdblock">
+		<!-- <div class="item" tapmode="presshover" onclick="openModifyPWD()">
+			<img src="../../image/my_order_user_icon_normal.png" alt="" class="item_ico">
+			<span style="color:#fff">修改密码</span>
+			<img src="../../image/arrow.png" alt="" class="item_arrow">
+		</div><div class="h1"></div>-->
+		<div class="item" tapmode="presshover" onclick="openNewWindow('setting')">
+			<img src="../../image/my_setting_user_icon_normal.png" alt="" class="item_ico">
+			<span style="color:#fff">设置</span>
+			<img src="../../image/arrow.png" alt="" class="item_arrow">
+		</div>
+	</div>
+
+
+	<div class="h10"></div>
+	<div class="thirdblock">
+		<div class="item" tapmode="presshover" onclick="update()">
+			<img src="../../image/my_coupon_user_icon_normal.png" alt="" class="item_ico">
+			<span style="color:#fff">检测更新</span>
+			<img src="../../image/arrow.png" alt="" class="item_arrow">
+			<span class="fr hint" id="job_1"></span>
+		</div><div class="h1"></div>
+	</div>
+	<div class="h10"></div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript">
+	var dialog;
+	function openNewWindow(type)
+	{
+		api.openWin({
+			name: 'forthsub',
+			url: './forth_header.html',
+			pageParam: {name: type},
+			bounces: false,
+			delay:200
+		});
+	}
+	function openLogin(){
+		api.openWin({
+			name: 'login',
+			url: './login_header.html',
+			bounces: false,
+			delay:200
+		});
+	}
+	function openWaitProcessJob()
+	{
+		api.openWin({
+			name: 'TaskManagement_body',
+			url: '../first_frame/task/TaskManagement_header.html',
+			bounces: false,
+			delay:200
+		});
+	}
+	var connection;
+	apiready = function() {
+
+
+
+		connection =  api.loadSecureValue({
+	        sync:true,
+	        key:'connection'
+        });
+		api.addEventListener({
+	        name:'UserEvent'
+        },function(ret,err){
+        	$api.dom('.title').innerHTML = ret.value.username;
+        });
+        var username = $api.getStorage('name');
+        if(username!=undefined){
+        	$api.dom('.title').innerHTML = username;
+        	getWaitProcessNum(username);
+        }
+
+	}
+	function openMyJob(){
+		api.openWin({
+			name: 'myjob_body',
+			url: '../first_frame/task/myjob_header.html',
+			bounces: false,
+			delay:200
+		});
+	}
+	function getWaitProcessNum(username){
+		api.ajax({
+	        url: connection + 'wap/GetAllTaskCount',
+			method: 'post',
+			data: {
+				values: {
+			    	username:username
+			    }
+			}
+        },function(ret,err){
+        	if(ret){
+        		$api.html($api.byId('job_1'), ret.return);
+        	}
+        });
+	}
+	function openModifyPWD(){
+		api.openWin({
+			name: 'modifypwd_header_body',
+			url: './modifypwd_header.html',
+			bounces: false,
+			delay:200
+		});
+	}
+
+</script>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>统计分析</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css" />
+    <script type="text/javascript" src="../../../script/jquery.min.js"></script>
+    <script type="text/javascript" src="../../../script/treescroll.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-datepicker3.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/amazeui.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../css/app.css">
+    <script type="text/javascript" src="../../../script/jquery.min.js"></script>
+    <script type="text/javascript" src="../../../script/treescroll.min.js"></script>
+    <script type="text/javascript" src="../../../script/api.js"></script>
+    <script type="text/javascript" src="../../../script/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../script/comm.js"></script>
+    <script type="text/javascript" src="../../../script/sl/sl_zjs.js"></script>
+    <script type="text/javascript" src="../../../script/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript" src="../../../script/bootstrap-datepicker.zh-CN.min.js"></script>
+    <script type="text/javascript" src="../../../script/amazeui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../../css/LoadAnimation.css" />
+
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            border: 0;
+            padding: 0;
+            font-style: normal;
+            background-color: #21232f !important;
+        }
+
+        * {
+            font-family: "微软雅黑"
+        }
+
+        .statisical-btn {
+            width: 14%;
+            height: 40px;
+            float: left;
+            border-radius: 0px;
+            position: relative;
+            line-height: 24px;
+            text-align: center;
+        }
+
+        .statisical-name {
+            width: 24%;
+            height: 40px;
+            margin-right: 1%;
+            text-align: center;
+            line-height: 40px;
+            float: left;
+            position: relative;
+            background: #393f4f;
+        }
+
+        .statisical-table {
+            width: 37%;
+            height: 40px;
+            float: left;
+            position: relative;
+            background: #393f4f;
+        }
+
+        .statisical-time {
+            width: 60%;
+            margin-right: 1%;
+            height: 40px;
+            float: left;
+            position: relative;
+            background: #393f4f;
+        }
+
+        select {
+            border: none;
+            outline: none;
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            padding-left: 20px;
+        }
+
+        .statisical-table:after {
+            content: "";
+            width: 14px;
+            height: 8px;
+            background: url(../../../image/down.png) no-repeat left top;
+            position: absolute;
+            right: 20px;
+            top: 45%;
+            pointer-events: none;
+        }
+
+        .select1 option {
+            background: #393f4f;
+        }
+    </style>
+</head>
+
+<body style="background-color:#21232f !important;">
+    <div class="am-tabs" data-am-tabs>
+
+        <div id="kuang2" class="am-tabs-bd">
+
+        </div>
+    </div>
+    <script type="text/javascript">
+        // apiready = function() {
+        //     var ip = getip();
+        //     var org = getslorg();
+        //     load(ip, org);
+        // }
+
+				var connection;
+    // 完成首页初始化
+    apiready = function(){
+    //  connection =  api.loadSecureValue({
+  	//        sync:true,
+  	//        key:'connection'
+    //      });
+          //connection = "http://10.10.227.125/";
+					    var ip = getip();
+				     var org = getslorg();
+					//	 'http://' + ip + '/home/get_zjs'
+					     console.log(JSON.stringify(name));
+          connection="http://" + ip;
+      loadData(org,api.pageParam.name);
+      //loadData('2');
+
+    };
+
+		function loadData(ip,org,name){
+
+		api.ajax({
+				url: connection + '/home/get_zjs',
+				method: 'post',
+				data: {
+						values: {
+								username:$api.getStorage('name'),
+								devName:name
+						}
+				}
+		}, function(ret, err) {
+			alert(JSON.stringify(ret));
+				if (JSON.stringify(ret)!='[]') {
+					var _index=0;
+					$api.html($api.byId('content'), "");
+					for(var i in ret){
+							$api.append($api.byId('content'), '<div class="search-body"><div class="search-header" id="s_'+ret[i].substation+'">'+ret[i].subName+'</div>');
+							addEvent('s_'+ret[i].substation,'','',ret[i].substation,ret[i].subName);
+							$api.append($api.byId('content'), '<ul>');
+							for(var j in ret[i].dev){
+								$api.append($api.byId('content'), '<li class="search-result" id="d_'+ ret[i].substation + ret[i].dev[j].devid+'">'+ret[i].dev[j].devname+'</li>');
+								addEvent('d_'+ ret[i].substation + ret[i].dev[j].devid,ret[i].dev[j].devid,ret[i].dev[j].devname,ret[i].substation,ret[i].subName);
+							}
+							$api.append($api.byId('content'), '</ul></div>');
+						}
+						hover();
+				} else {
+					$api.html($api.byId('content'), "");
+				}
+		});
+	}
+    </script>
+</body>
+
+</html>

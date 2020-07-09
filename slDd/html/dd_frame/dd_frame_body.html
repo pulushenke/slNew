@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>盗电监测</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <script type="text/javascript" src="../../script/jquery.min.js"></script>
+    <script type="text/javascript" src="../../script/treescroll.min.js"></script>
+    <script type="text/javascript" src="../../script/dd/frame_body.js"></script>
+    <script type="text/javascript" src="../../script/api.js"></script>
+    <script type="text/javascript" src="../../script/comm.js"></script>
+    <script type="text/javascript" src="../../script/idangerous.swiper.min.js"></script>
+    <script type="text/javascript">
+    </script>
+</head>
+<style>
+    html,body {
+        height: 100%;
+        background-color: #21232f !important;
+    }
+
+    .wrap {
+        margin: 40px auto 0 auto;
+    }
+
+    .tabs {
+        height: 30px;
+    }
+
+    .tabs a {
+        display: block;
+        float: left;
+        width: 33.33%;
+        color: #a3a3a3;
+        text-align: center;
+        background: #21232f;
+        line-height: 40px;
+        font-size: 14px;
+        text-decoration: none;
+    }
+
+    .tabs a.active {
+        color: #fff;
+        background: #21232f;
+        border-radius: 5px 5px 0px 0px;
+    }
+
+    .swiper-container {
+        background: #21232f;
+        height: auto;
+        border-radius: 0 0 5px 5px;
+        width: 100%;
+        border-top: 0;
+    }
+
+    .swiper-slide {
+        height: 1000px;
+        width: 100%;
+        background: none;
+        color: #fff;
+    }
+
+    .content-slide {
+        padding: 0px;
+    }
+
+    .content-slide p {
+        text-indent: 2em;
+        line-height: 1.9;
+    }
+    .content-slide li{
+        margin-bottom: 10px;
+    }
+    .swiper-container {
+        margin: 0 auto;
+        position: relative;
+        overflow: hidden;
+        -webkit-backface-visibility: hidden;
+        -moz-backface-visibility: hidden;
+        -ms-backface-visibility: hidden;
+        -o-backface-visibility: hidden;
+        backface-visibility: hidden;
+        /* Fix of Webkit flickering */
+        z-index: 1;
+    }
+
+    .swiper-wrapper {
+        position: relative;
+        width: 100%;
+        -webkit-transition-property: -webkit-transform, left, top;
+        -webkit-transition-duration: 0s;
+        -webkit-transform: translate3d(0px, 0, 0);
+        -webkit-transition-timing-function: ease;
+        -moz-transition-property: -moz-transform, left, top;
+        -moz-transition-duration: 0s;
+        -moz-transform: translate3d(0px, 0, 0);
+        -moz-transition-timing-function: ease;
+        -o-transition-property: -o-transform, left, top;
+        -o-transition-duration: 0s;
+        -o-transform: translate3d(0px, 0, 0);
+        -o-transition-timing-function: ease;
+        -o-transform: translate(0px, 0px);
+        -ms-transition-property: -ms-transform, left, top;
+        -ms-transition-duration: 0s;
+        -ms-transform: translate3d(0px, 0, 0);
+        -ms-transition-timing-function: ease;
+        transition-property: transform, left, top;
+        transition-duration: 0s;
+        transform: translate3d(0px, 0, 0);
+        transition-timing-function: ease;
+        -webkit-box-sizing: content-box;
+        -moz-box-sizing: content-box;
+        box-sizing: content-box;
+    }
+
+    .swiper-free-mode>.swiper-wrapper {
+        -webkit-transition-timing-function: ease-out;
+        -moz-transition-timing-function: ease-out;
+        -ms-transition-timing-function: ease-out;
+        -o-transition-timing-function: ease-out;
+        transition-timing-function: ease-out;
+        margin: 0 auto;
+    }
+
+    .swiper-slide {
+        float: left;
+        -webkit-box-sizing: content-box;
+        -moz-box-sizing: content-box;
+        box-sizing: content-box;
+    }
+</style>
+
+<body>
+    <div id="header" class="second-p aui-content">
+        <div class="aui-content aui-margin-b-15">
+            <ul class="aui-list aui-media-list">
+                <li class="aui-list-item">
+                    <div class="aui-list-item-inner">
+                        <div class="aui-row aui-row-padded">
+                            <div class="aui-col-xs-4" style="position:relative;" onclick="openNewWindow('dd_zjs/dd_zjs')">
+                                <img src="../../image/demo1.png" />
+                                <div class="second-img">
+                                    <p>总装置数</p>
+                                    <p><span id="zjs">0</span></p>
+                                </div>
+                            </div>
+                            <div class="aui-col-xs-4" style="position:relative;" onclick="openNewWindow('dd_stop/dd_stop')">
+                                <img src="../../image/demo2.png" />
+                                <div class="second-img">
+                                    <p>停机数</p>
+                                    <p><span id="tjs">0</span></p>
+                                </div>
+                            </div>
+                            <div class="aui-col-xs-4" style="position:relative;" >
+                                <!--  -->
+                                <img src="../../image/demo3.png" />
+                                <div class="second-img">
+                                    <p style="font-size:14px;">48小时报警数</p>
+                                    <p><span id="bjs">0</span></p>
+                                </div>
+                            </div>
+                            <div class="aui-col-xs-4" style="position:relative;" onclick="openNewWindow('dd_statistical/dd_statistical')">
+                                <img src="../../image/demo4.png" />
+                                <div class="second-img">
+                                    <p>统计</p>
+                                    <p>分析</p>
+                                </div>
+                            </div>
+                            <div class="aui-col-xs-4" style="position:relative;" onclick="openNewWindow('dd_history/dd_history')">
+                                <img src="../../image/demo5.png" />
+                                <div class="second-img">
+                                    <p>历史</p>
+                                    <p>查询</p>
+                                </div>
+                            </div>
+                            <div class="aui-col-xs-4" style="position:relative;" onclick="openNewWindow('dd_offline/dd_offine')">
+                                <img src="../../image/demo6.png" />
+                                <div class="second-img">
+                                    <p>离线数</p>
+                                    <p><span id="tds">0</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!--停井列表-->
+    <div id="lists" class="second-table">
+        <p style="float:left;">报警列表</p>
+          <p style="float:right;" onclick="openNewWindow('dd_electricity/dd_electricity')">电量查询</p>
+
+        <!--onclick="openNewWindow('dd_alarmlist/dd_alarmlist')"-->
+        <div class="wrap">
+            <div class="tabs">
+                <a href="#" hidefocus="true" class="active">电压不平衡</a>
+                <a href="#" hidefocus="true">盗电</a>
+                <a href="#" hidefocus="true">停井</a>
+            </div>
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <ul id="one" class="content-slide">
+
+                        </ul>
+                    </div>
+                    <div class="swiper-slide">
+                        <ul id="two" class="content-slide">
+
+                        </ul>
+                    </div>
+                    <div class="swiper-slide">
+                        <ul id="three" class="content-slide">
+                          
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <script type="text/javascript">
+        function click1(obj) {
+
+            var el = document.getElementById(obj.id);
+            //var id = el.id.split('.', 1);
+            //var name = el.innerHTML;
+            var id = el.id.split('.');
+            //alert(id[0] + ':' + id[2]);
+            var name = $api.eq(el, 2).innerHTML;
+
+            var temp1 = 'start' + id[2];
+            //alert(temp1);
+
+            var time1 = (document.getElementById(temp1).innerHTML);
+            var time2 = time1.substring(8, 10);
+            time1 = time1.substring(11, 16);
+
+
+            var time = time1.split(':');
+            var timenow = '';
+            time2 = new Date().getDate() - time2;
+
+            //alert(time2);
+            //alert(time1);
+            //var start= document.getElementById('start0');
+            //  start=strat.innerHTML;
+            //temp=$api.first(temp,'div');
+            //var endTime= $api.eq(temp,1).innerHTML;
+            //alert(json.stringify(start));
+            //alert(id+':'+name);
+            api.openWin({
+                name: 'alarmlist_header',
+                url: './dd_alarmlist/dd_alarmlist_header.html',
+                pageParam: {
+                    id: id[0],
+                    name: name,
+                    time1: time1,
+                    time2: time2
+                }
+            });
+        }
+        var tabsSwiper = new Swiper('.swiper-container', {
+            speed: 500,
+            onSlideChangeStart: function() {
+                $(".tabs .active").removeClass('active');
+                $(".tabs a").eq(tabsSwiper.activeIndex).addClass('active');
+            }
+        });
+
+        $(".tabs a").on('touchstart mousedown', function(e) {
+            e.preventDefault()
+            $(".tabs .active").removeClass('active');
+            $(this).addClass('active');
+            tabsSwiper.swipeTo($(this).index());
+        });
+
+        $(".tabs a").click(function(e) {
+            e.preventDefault();
+        });
+            function openNewWindow(type) {
+                var userdd = $api.getStorage('userdd');
+                if (userdd == 'true') {
+                    api.openWin({
+                        name: type,
+                        url: './' + type + '_header.html',
+                        delay: 200,
+                        bounces: false
+                    });
+                } else {
+                    api.toast({
+                        msg: '该用户没有防盗电权限',
+                        duration: 1000,
+                        location: 'middle'
+                    });
+                }
+            }
+
+
+            var header = $api.byId('header');
+            var nav = $api.byId('lists');
+            headerH = $api.offset(header).h;
+            navH = $api.offset(nav).h;
+            var framesOpened = false;
+            apiready = function() {
+                var userdd = $api.getStorage('userdd');
+                if (userdd == 'true') {
+                    var org = getddorg();
+                    var notifynum = 0;
+                    api.setAppIconBadge({
+                        badge: notifynum
+                    });
+                    $api.setStorage('notifynum', notifynum);
+                    load(org);
+                } else {
+                    api.toast({
+                        msg: '该用户没有防盗电权限',
+                        duration: 1000,
+                        location: 'middle'
+                    });
+                }
+                //下拉刷新数据
+                api.setRefreshHeaderInfo({
+                    loadingImg: '',
+                    bgColor: '#DEF3CA',
+                    textColor: '#fff',
+                    textDown: '下拉刷新...',
+                    textUp: '松开刷新...'
+                }, function(ret, err) {
+                    var username = $api.getStorage('username');
+                    //username = 'testuser';
+                    //alert('userdd:'+userdd);
+                    if (userdd == 'true') {
+                        load(org);
+
+
+                    } else {
+                        api.toast({
+                            msg: '该用户没有防盗电权限',
+                            duration: 1000,
+                            location: 'middle'
+                        });
+                    }
+                    api.refreshHeaderLoadDone();
+                });
+
+
+                // 分类菜单点击的响应函数，切换Frame
+
+
+            }
+
+
+
+
+
+
+        </script>
+</body>
+
+</html>

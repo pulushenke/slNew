@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>title</title>
+
+	<link rel="stylesheet" type="text/css" href="../../../css/header.css" />
+	<link rel="stylesheet" type="text/css" href="../../../css/style.css" />
+	<style>
+	.div-h{
+		    position: fixed;
+				width:100%;
+				top:0;
+	}
+		.content {
+			color: #fff;
+			margin: 70px 0 0;
+		}
+
+		.content .mine {
+			padding: 10px;
+			background-color: #2B80B9;
+			font-size: 18px;
+		}
+
+		.content .team {
+			padding: 8px;
+			background-color: #4EB7CD;
+			font-size: 16px;
+		}
+		.content li{
+			padding: 5px;
+			color:#59D7F1;
+			font-size: 16px;
+		}
+	</style>
+</head>
+
+<body style="background-color:#393F4F">
+	<div class="div-h">
+		<div class="div-style1" onclick="goback()"><img src="../../../image/ic_back_u.png" alt=""></div>
+		<div class="div-style2">
+			<input type="text" style="color:#fff;" id="wellName" placeholder="请输入搜索井号">
+		</div>
+		<div class="div-style3">
+			<!-- <img src="../../../image/search.png" alt=""> -->
+			<!-- <input type="button" id="subtn" value="搜索" onclick="btn_click()"> -->
+		</div>
+	</div>
+	<div class="div_body">
+		<div class="content"></div>
+	</div>
+</body>
+<script type="text/javascript" src="../../../script/api.js"></script>
+<script type="text/javascript" src="../../../script/jquery.min.js"></script>
+<script type="text/javascript" src="../../../script/comm.js"></script>
+<script type="text/javascript">
+
+
+
+var data = {};
+	apiready = function() {
+		var obj = $api.dom('#wellName');
+		var well = [];
+		var orgName = [];
+		//var mineTeam = [];
+		obj.focus();
+		obj.addEventListener('input', function(event) {
+			var keyword = $(this).val();
+				getSearch($(".content"),keyword);
+		}, false);
+
+		var ip = getip();
+		var org = getslorg();
+
+		//	 'http://' + ip + '/home/get_zjs'
+		connection = "http://" + ip;
+		api.ajax({
+			url: 'http://' + ip + '/home/get_zjs',
+			method: 'post',
+			data: {
+				values: {
+					changid: org.changid,
+					kuangid: org.kuangid,
+					duiid: org.duiid
+				},
+				files: {
+					file: 'fs://a.gif'
+				}
+			}
+		}, function(ret, err) {
+			if (ret) {
+				data = ret;
+			}
+		})
+
+		//loadData(ip, org);
+
+
+
+	};
+
+	function goback() {
+		api.closeWin();
+	}
+
+	function openSearch() {
+			api.openWin({
+					name: 'search_details',
+					url: './html/search_details.html',
+					bounces: false,
+					delay: 200,
+					pageParam:{
+						
+					}
+			});
+	}
+
+
+  // 搜索
+	function getSearch(parent,keywordVal){
+		var reg = new RegExp(keywordVal, 'gi');
+		//	console.log(JSON.stringify(data));
+		parent.empty();
+		if (keywordVal.length > 0) {
+			for (var i = 0; i < data.listorg.length; i++) {
+				var mine = data.listorg[i].orgname;
+
+				var $divMine = $('<div>');
+				var $titleMine = $('<div>');
+				$titleMine.attr('class', 'mine');
+				$titleMine.text(mine);
+				$divMine.append($titleMine);
+
+				for (var k = 0; k < data.listorg[i].listorg.length; k++) {
+					var team = data.listorg[i].listorg[k].orgname;
+				//	mineTeam.push(team);
+					var $divTeam = $('<div>');
+					var $titleTeam = $('<div>');
+					$titleTeam.attr('class', 'team');
+					$titleTeam.text(team);
+					$divTeam.append($titleTeam);
+
+					if (data.listorg[i].listorg[k].listWells !== null) {
+						for (var j = 0; j < data.listorg[i].listorg[k].listWells.length; j++) {
+							var temp = data.listorg[i].listorg[k].listWells[j].name;
+							//
+							if (reg.test(temp)) {
+								var $ul = $('<ul>');
+								$ul.attr('class', 'u');
+								var $li = $('<li>');
+									$li.text(temp);
+									//点击井号跳转新页面 传矿 队 井号值	
+									$li.click()
+									$ul.append($li);
+									$divTeam.append($ul);
+									$divMine.append($divTeam);
+									parent.append($divMine);
+
+							}
+
+						}
+					}
+				}
+
+			}
+		}
+	}
+	function openWellCondition() {
+			api.openWin({
+					name: 'wellCondition',
+					url: './wellCondition.html',
+					bounces: false,
+					delay: 200,
+					pageParam:{
+						
+					}
+			});
+	}
+
+</script>
+
+</html>
